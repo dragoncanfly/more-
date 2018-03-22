@@ -10,3 +10,28 @@ int missingNumber(int* nums, int numsSize) {
     res = tmp - sum;
     return res;
 }
+
+//118. Pascal's Triangle
+int** generate(int numRows, int** columnSizes) {
+    if (numRows == 0) return 0;
+    int **returnArray = (int*)malloc(sizeof(int*) * numRows);
+    int *columnSizesA = (int*)malloc(sizeof(int)*numRows);
+    int i; 
+    int j;
+    for (i = 0; i < numRows; i++){
+        returnArray[i] = (int*)malloc(sizeof(int)*(i+1));
+        
+        columnSizesA[i] = i+1;
+        for (j = 0; j <= i; j++){
+            if (j == 0 || j == i)
+            {
+                returnArray[i][j] = 1; //returnArray[i-1][j];
+            }
+            else{
+                returnArray[i][j] = returnArray[i-1][j] + returnArray[i-1][j-1];
+            }
+        }
+    }
+    *columnSizes = columnSizesA;
+    return returnArray;
+}  //第一次是在申请空间时出了点问题，后来简单改了下竟然通过了。因为是已经定义好的函数，所以目前一直不清楚int** columnSizes的作用在哪里
