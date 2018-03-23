@@ -35,3 +35,46 @@ int** generate(int numRows, int** columnSizes) {
     *columnSizes = columnSizesA;
     return returnArray;
 }  //第一次是在申请空间时出了点问题，后来简单改了下竟然通过了。因为是已经定义好的函数，所以目前一直不清楚int** columnSizes的作用在哪里
+
+//203. Remove Linked List Elements
+//删除链表中指定的元素，自己写的还是不靠谱，两种解法是根据discuss中参考来的。一开始就卡在如何设置前一个节点的上，没有想通如何存储当前节点的上一个节点
+struct ListNode* removeElements(struct ListNode* head, int val) {
+    /*struct ListNode *p = NULL;
+    struct ListNode *p1 = NULL;
+    if (head == NULL) return head;
+    for (p = head; p != NULL; p = p->next)
+    {
+        if (p->val == val){
+            if (p == head){
+                head = head->next;
+            }
+            else{
+                p1->next = p->next;
+            }
+    }
+        else
+        {
+            p1 = p;
+        }
+    }*/
+    struct ListNode *dummy = (struct ListNode*)malloc(sizeof(struct ListNode));
+    dummy->val = 0;
+    dummy->next = head;
+    struct ListNode *prev = dummy;
+    struct ListNode *curr = dummy->next;
+    struct ListNode *NEXT = NULL;
+    //prev->next = head;
+    while(curr)
+    {
+        NEXT = curr->next;
+        if (curr->val == val){
+            prev->next = curr->next;
+        }
+        else{
+            prev = curr;
+        }
+        curr = NEXT;
+    }
+
+    return dummy->next;
+}
