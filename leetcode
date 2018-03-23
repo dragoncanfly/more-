@@ -78,3 +78,26 @@ struct ListNode* removeElements(struct ListNode* head, int val) {
 
     return dummy->next;
 }
+
+//234. Palindrome Linked List
+//参考discuss中做了数组的比较实现，但是对提到的那个归途赛跑的不是太理解
+bool isPalindrome(struct ListNode* head) {
+    int *array = (int*)malloc(sizeof(int));  //将链表中值转换到数组中以便比较，参考discuss
+    int size = 0;
+    struct ListNode *p;
+    p = head;
+    while (p)
+    {
+        size += 1;
+        array = (int*)realloc(array, size*sizeof(int));
+        array[size-1] = p->val;
+        p = p->next;
+    }
+    for (int i = 0; i < size/2; i++)
+    {
+        if (array[i] != array[size-i-1]){
+            return false;
+        }
+    }
+    return true;     //还有一种龟兔赛跑的算法没有看太懂
+}
