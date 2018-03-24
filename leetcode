@@ -132,3 +132,45 @@ bool isPalindrome(struct ListNode* head) {
     }
     return slow == NULL;  //参考discuss
 }
+
+//19. Remove Nth Node From End of List
+struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {  //solution
+    struct ListNode *dummy = (struct ListNode*)malloc(sizeof(struct ListNode));
+    struct ListNode *p, *p1;
+    //dummy->val = 0;
+    dummy->next = head;
+    int size = 0;
+    p = dummy->next;
+    while (p)
+    {
+        size += 1;
+        p = p->next;
+    }
+    int t = 0;
+    for (p1 = dummy; p1 != NULL && p1->next != NULL; p1 = p1->next)
+    {
+        //t += 1;
+        while (t == size-n)
+        {
+            p1->next = p1->next->next;   //不懂为什么说访问空指针，因为这个地方开始没有break，那么就无法跳出循环，所以访问空指针了
+            break;            
+        }
+        t++;
+    }
+    /*for (int i = 0;i < size-n; i++)
+    {
+        p1 = p1->next;
+    }
+    p1->next = p1->next->next;*/
+    
+    /*size = size - n;
+    p1 = dummy;
+    while (size > 0)
+    {
+        size--;
+        p1 = p1->next;
+    }
+    p1->next = p1->next->next;*/
+    return dummy->next;           //上面的注释算是一种方法的几种循环方法
+}
+
