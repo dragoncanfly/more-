@@ -80,9 +80,10 @@ struct ListNode* removeElements(struct ListNode* head, int val) {
 }
 
 //234. Palindrome Linked List
-//参考discuss中做了数组的比较实现，但是对提到的那个归途赛跑的不是太理解
+//参考discuss中做了数组的比较实现，但是对提到的那个归途赛跑的不是太理解；  
+//已经差不多了
 bool isPalindrome(struct ListNode* head) {
-    int *array = (int*)malloc(sizeof(int));  //将链表中值转换到数组中以便比较，参考discuss
+    /*int *array = (int*)malloc(sizeof(int));  //将链表中值转换到数组中以便比较，参考discuss
     int size = 0;
     struct ListNode *p;
     p = head;
@@ -99,5 +100,35 @@ bool isPalindrome(struct ListNode* head) {
             return false;
         }
     }
-    return true;     //还有一种龟兔赛跑的算法没有看太懂
+    return true;*/     //还有一种龟兔赛跑的算法没有看太懂
+    if (!head || !head->next) return true;
+    struct ListNode *slow = head;
+    struct ListNode *fast = head->next->next;
+    while(fast && fast->next)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    if (fast == NULL) fast = slow->next;
+    else fast = slow->next->next;
+    slow->next = NULL;   //截此将链表分成两个部分
+    struct ListNode *p, *p1, *p2;   //p算是中转，p1存储反序链表，p2取节点
+    p2 = head->next;
+    p1 = head;
+    p1->next = NULL;    //对p1以及p2分配时顺序不能发生变化，就上面三句， 否则会出问题
+    while (p2)
+    {
+        p = p2->next;
+        p2->next = p1;
+        p1 = p2;
+        p2 = p;
+    }   //这部分将链表反序
+    while (fast)
+    {
+        if (fast->val != slow->val)
+            return false;
+        fast= fast->next;
+        slow= slow->next;
+    }
+    return slow == NULL;  //参考discuss
 }
